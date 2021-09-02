@@ -31,7 +31,7 @@ push:
 stop:
 	@docker rm -f ${NAME} >/dev/null 2>&1 || :
 
-clean:
+clean: 
 	@docker rmi -f $(DOCKERHUB_ID)/$(NAME):$(VERSION) >/dev/null 2>&1 || :
 
 .PHONY: build dev run push test stop clean
