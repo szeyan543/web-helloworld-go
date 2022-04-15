@@ -59,3 +59,4 @@ agent-stop:
 	hzn unregister -f
 
 .PHONY: build dev run push publish-service publish-pattern test stop clean agent-run agent-stop
+
