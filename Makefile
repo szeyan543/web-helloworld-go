@@ -17,7 +17,7 @@ dev: stop build
 	docker run -it -v `pwd`:/outside \
         --name ${SERVICE_NAME} \
         -p 8000:8000 \
-		$(DOCKER_HUB_ID ?= ibmosquito)/$(SERVICE_NAME):$(SERVICE_VERSION) /bin/bash
+	$(DOCKER_HUB_ID ?= ibmosquito)/$(SERVICE_NAME):$(SERVICE_VERSION) /bin/bash
 
 run: stop
 	docker run -d \
