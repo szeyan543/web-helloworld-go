@@ -6,11 +6,12 @@ DOCKER_HUB_ID ?= ibmosquito
 # The Open Horizon Exchange's organization ID namespace where you will be publishing files
 HZN_ORG_ID ?= examples
 
-SERVICE_NAME ?= "web-hello-go"
+export SERVICE_NAME ?= "web-hello-go"
 PATTERN_NAME ?= "pattern-web-helloworld-go"
 DEPLOYMENT_POLICY_NAME ?= deployment-policy-web-helloworld-go
 NODE_POLICY_NAME ?= node-policy-web-helloworld-go
-SERVICE_VERSION ?= "1.0.0"
+export SERVICE_VERSION ?= "1.0.0"
+export SERVICE_CONTAINER := $(DOCKER_HUB_ID)/$(SERVICE_NAME):$(SERVICE_VERSION)
 ARCH ?= "amd64"
 
 # Detect Operating System running Make
@@ -21,26 +22,26 @@ CONTAINER_CREDS ?=
 default: build run
 
 build:
-	docker build -t $(DOCKER_HUB_ID)/$(SERVICE_NAME):$(SERVICE_VERSION) .
+	docker build -t $(SERVICE_CONTAINER) .
 
 dev: stop build
 	docker run -it -v `pwd`:/outside \
       --name ${SERVICE_NAME} \
       -p 8000:8000 \
-      $(DOCKER_HUB_ID)/$(SERVICE_NAME):$(SERVICE_VERSION) /bin/bash
+      $(SERVICE_CONTAINER) /bin/bash
 
 run: stop
 	docker run -d \
       --name ${SERVICE_NAME} \
       --restart unless-stopped \
       -p 8000:8000 \
-      $(DOCKER_HUB_ID)/$(SERVICE_NAME):$(SERVICE_VERSION)
+      $(SERVICE_CONTAINER)
 
 test:
 	@curl -sS http://127.0.0.1:8000
 
 push:
-	docker push $(DOCKER_HUB_ID)/$(SERVICE_NAME):$(SERVICE_VERSION) 
+	docker push $(SERVICE_CONTAINER) 
 
 publish: publish-service publish-service-policy publish-deployment-policy
 
@@ -53,7 +54,7 @@ publish-service:
 	@ARCH=$(ARCH) \
       SERVICE_NAME="$(SERVICE_NAME)" \
       SERVICE_VERSION="$(SERVICE_VERSION)"\
-      SERVICE_CONTAINER="$(DOCKER_HUB_ID)/$(SERVICE_NAME):$(SERVICE_VERSION)" \
+      SERVICE_CONTAINER="$(SERVICE_CONTAINER) \
       hzn exchange service publish -O $(CONTAINER_CREDS) -f service.definition.json --pull-image
 	@echo ""
 
@@ -103,7 +104,7 @@ stop:
 	@docker rm -f ${SERVICE_NAME} >/dev/null 2>&1 || :
 
 clean:
-	@docker rmi -f $(DOCKER_HUB_ID)/$(SERVICE_NAME):$(SERVICE_VERSION) >/dev/null 2>&1 || :
+	@docker rmi -f $(SERVICE_CONTAINER) >/dev/null 2>&1 || :
 
 agent-run:
 	@echo "================"
