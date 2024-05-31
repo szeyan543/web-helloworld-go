@@ -1,8 +1,8 @@
 {
   "org": "$HZN_ORG_ID",
   "label": "$SERVICE_NAME for $ARCH",
-	"description": "A simple HTTP service to respond with a custom hello greeting in HTML format",
-	"documentation": "https://github.com/open-horizon-services/web-helloworld-go/blob/main/README.md",
+  "description": "A simple HTTP service to respond with a custom hello greeting in HTML format",
+  "documentation": "https://github.com/open-horizon-services/web-helloworld-go/blob/main/README.md",
   "url": "$SERVICE_NAME",
   "version": "$SERVICE_VERSION",
   "arch": "$ARCH",
@@ -11,13 +11,16 @@
   "requiredServices": [],
   "userInput": [],
   "deployment": {
-    "services": {
-      "$SERVICE_NAME": {
-        "image": "$SERVICE_CONTAINER",
-        "ports": [ 
-          { "HostIP": "0.0.0.0", "HostPort": "8000:8000/tcp" }
-        ]
+      "services": {
+          "$SERVICE_NAME": {
+              "image": "$SERVICE_CONTAINER",
+              "ports": [
+                  {
+                      "HostIP": "0.0.0.0",
+                      "HostPort": "8000:8000/tcp"
+                  }
+              ]
+          }
       }
-    }
   }
 }

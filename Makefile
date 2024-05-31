@@ -6,13 +6,13 @@ DOCKER_HUB_ID ?= ibmosquito
 # The Open Horizon Exchange's organization ID namespace where you will be publishing files
 HZN_ORG_ID ?= examples
 
-export SERVICE_NAME ?= "web-hello-go"
-PATTERN_NAME ?= "pattern-web-helloworld-go"
+export SERVICE_NAME ?= web-hello-go
+PATTERN_NAME ?= pattern-web-helloworld-go
 DEPLOYMENT_POLICY_NAME ?= deployment-policy-web-helloworld-go
 NODE_POLICY_NAME ?= node-policy-web-helloworld-go
-export SERVICE_VERSION ?= "1.0.0"
+export SERVICE_VERSION ?= 1.0.0
 export SERVICE_CONTAINER := $(DOCKER_HUB_ID)/$(SERVICE_NAME):$(SERVICE_VERSION)
-ARCH ?= "amd64"
+ARCH ?= amd64
 
 # Detect Operating System running Make
 OS := $(shell uname -s)
@@ -36,6 +36,13 @@ run: stop
       --restart unless-stopped \
       -p 8000:8000 \
       $(SERVICE_CONTAINER)
+
+check:
+	@echo "=================="
+	@echo "SERVICE DEFINITION"
+	@echo "=================="
+	@cat service.definition.json | envsubst
+	@echo ""
 
 test:
 	@curl -sS http://127.0.0.1:8000
