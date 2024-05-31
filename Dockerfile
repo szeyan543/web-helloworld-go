@@ -2,7 +2,7 @@ FROM golang:latest
 # A Debian base image with the latest Go and GOPATH set to /go
 
 # Dev tools (can be removed for production)
-RUN apt update && apt install -y vim curl jq
+RUN apt-get -y update && apt-get -y install vim curl jq
 
 # Copy in the source files
 COPY ./src/* /go/src/
