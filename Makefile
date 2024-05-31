@@ -58,11 +58,7 @@ publish-service:
 	@echo "=================="
 	@echo "PUBLISHING SERVICE"
 	@echo "=================="
-	@ARCH=$(ARCH) \
-      SERVICE_NAME="$(SERVICE_NAME)" \
-      SERVICE_VERSION="$(SERVICE_VERSION)"\
-      SERVICE_CONTAINER="$(SERVICE_CONTAINER) \
-      hzn exchange service publish -O $(CONTAINER_CREDS) -f service.definition.json --pull-image
+	@hzn exchange service publish -O $(CONTAINER_CREDS) --json-file=service.definition.json --pull-image
 	@echo ""
 
 remove-service:
@@ -141,4 +137,4 @@ log:
 	@hzn service log -f $(SERVICE_NAME)
 
 .PHONY: 
-	build dev run push publish-service publish-pattern test stop clean agent-run agent-stop
+	default build dev run test check push publish remove publish-service remove-service publish-service-policy remove-service-policy publish-pattern publish-deployment-policy remove-deployment-policy stop clean agent-run agent-run-pattern agent-stop deploy-check log
