@@ -1,7 +1,7 @@
 # Extremely simple HTTP server that responds on port 8000 with a hello message in HTML format.
 
 # DockerHub ID of the third party providing the image (usually yours if building and pushing)
-DOCKER_HUB_ID ?= ibmosquito
+DOCKER_HUB_ID ?= szeyan11
 
 # The Open Horizon Exchange's organization ID namespace where you will be publishing files
 HZN_ORG_ID ?= examples
